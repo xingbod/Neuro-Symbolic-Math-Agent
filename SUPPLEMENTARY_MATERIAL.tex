@@ -1,5 +1,5 @@
 % =========================================================================
-% SUPPLEMENTARY MATERIAL S1: Reproducibility Manifest, Artifact Map,
+% SUPPLEMENTARY MATERIAL: Reproducibility Manifest, Artifact Map,
 % Data Model Specifications, and Verifier Issue Taxonomy
 %
 % Accompanies: "A Verifier-Gated Neuro-Symbolic Agent Creates Isomorphic Math
@@ -22,13 +22,13 @@
     linkcolor=blue,
     citecolor=blue,
     urlcolor=blue,
-    pdftitle={Supplementary Material S1: Reproducibility Manifest and Artifact Map}
+    pdftitle={Supplementary Material: Reproducibility Manifest and Artifact Map}
 }
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 
-\title{\textbf{Supplementary Material S1: Reproducibility Manifest, Data Models, and Verifier Issue Taxonomy}}
+\title{\textbf{Supplementary Material: Reproducibility Manifest, Data Models, and Verifier Issue Taxonomy}}
 \author{\textbf{Antigravity Research Team}}
 \date{\today}
 
@@ -42,9 +42,9 @@ This supplementary document accompanies the manuscript \textbf{``A Verifier-Gate
 \newpage
 
 % -------------------------------------------------------------------------
-% SECTION S1.1: EXPERIMENT IDENTIFIERS AND SAMPLING SEEDS
+% SECTION 1: EXPERIMENT IDENTIFIERS AND SAMPLING SEEDS
 % -------------------------------------------------------------------------
-\section{S1.1 Experiment Identifiers and Sampling Seeds}\label{sec:s11-experiment-identifiers}
+\section{Experiment Identifiers and Sampling Seeds}\label{sec:experiment-identifiers}
 
 To ensure complete reproducibility of the empirical evaluation reported in Section 4, all experimental trials were executed against a fixed sample derived from deterministic pseudo-random shuffling.
 
@@ -62,17 +62,17 @@ To ensure complete reproducibility of the empirical evaluation reported in Secti
 \end{itemize}
 
 % -------------------------------------------------------------------------
-% SECTION S1.2: DATASET PROVENANCE AND SHA-256 MANIFEST
+% SECTION 2: DATASET PROVENANCE AND SHA-256 MANIFEST
 % -------------------------------------------------------------------------
-\section{S1.2 Dataset Provenance and SHA-256 Manifest}\label{sec:s12-dataset-provenance}
+\section{Dataset Provenance and SHA-256 Manifest}\label{sec:dataset-provenance}
 
-Table~\ref{tab:s1-dataset-provenance} details the upstream source endpoints, local file paths, and cryptographic SHA-256 hashes for all evaluation datasets.
+Table~\ref{tab:dataset-provenance} details the upstream source endpoints, local file paths, and cryptographic SHA-256 hashes for all evaluation datasets.
 
 \begin{table}[htbp]
 \centering
 \small
 \caption{Dataset provenance, local storage paths, and cryptographic SHA-256 manifests.}
-\label{tab:s1-dataset-provenance}
+\label{tab:dataset-provenance}
 \begin{tabular}{lllll}
 \toprule
 Dataset & Upstream Source & Split / Config & Local Path & SHA-256 Checksum \\
@@ -92,17 +92,17 @@ PRM800K & OpenAI \texttt{openai/prm800k} & \texttt{phase2\_test} & \texttt{data/
 \end{itemize}
 
 % -------------------------------------------------------------------------
-% SECTION S1.3: LLM PROVIDER AND RUNTIME SERVICE CONFIGURATION
+% SECTION 3: LLM PROVIDER AND RUNTIME SERVICE CONFIGURATION
 % -------------------------------------------------------------------------
-\section{S1.3 LLM Provider and Service Configurations}\label{sec:s13-service-configuration}
+\section{LLM Provider and Service Configurations}\label{sec:service-configuration}
 
-Table~\ref{tab:s1-model-service-configuration} summarizes the LLM service endpoints, sampling parameters, and context limits used during formalization and candidate generation.
+Table~\ref{tab:model-service-configuration} summarizes the LLM service endpoints, sampling parameters, and context limits used during formalization and candidate generation.
 
 \begin{table}[htbp]
 \centering
 \small
 \caption{LLM service endpoints and hyperparameter configurations.}
-\label{tab:s1-model-service-configuration}
+\label{tab:model-service-configuration}
 \begin{tabular}{lllrr}
 \toprule
 Pipeline Stage & Reported Model Identifier & Default Base URL & Temp. & Max Tokens \\
@@ -124,9 +124,9 @@ DeepSeek Candidate Gen. & \texttt{deepseek-ai/DeepSeek-V3} & \url{https://api.si
 \end{itemize}
 
 % -------------------------------------------------------------------------
-% SECTION S1.4: SERIALIZED DATA MODELS AND CONTROLLER STATES
+% SECTION 4: SERIALIZED DATA MODELS AND CONTROLLER STATES
 % -------------------------------------------------------------------------
-\section{S1.4 Serialized Data Models and Controller States}\label{sec:s14-data-models}
+\section{Serialized Data Models and Controller States}\label{sec:data-models}
 
 The controller architecture formalizes problem items, steps, candidate responses, and verifier outputs using immutable data structures.
 
@@ -147,17 +147,17 @@ The \texttt{MathAgent} controller outputs one of two terminal states:
 \end{itemize}
 
 % -------------------------------------------------------------------------
-% SECTION S1.5: VERIFIER FAILURE ISSUE TAXONOMY AND REFLECTION PROMPTS
+% SECTION 5: VERIFIER FAILURE ISSUE TAXONOMY AND REFLECTION PROMPTS
 % -------------------------------------------------------------------------
-\section{S1.5 Verifier Failure Issue Taxonomy and Reflection Mappings}\label{sec:s15-issue-taxonomy}
+\section{Verifier Failure Issue Taxonomy and Reflection Mappings}\label{sec:issue-taxonomy}
 
-When candidate verification fails, the \texttt{SymbolicVerifier} categorizes the failure into an issue taxonomy code. The \texttt{ReflectionEngine} maps these codes into prompt constraints for the next attempt (Table~\ref{tab:s1-issue-taxonomy}).
+When candidate verification fails, the \texttt{SymbolicVerifier} categorizes the failure into an issue taxonomy code. The \texttt{ReflectionEngine} maps these codes into prompt constraints for the next attempt (Table~\ref{tab:issue-taxonomy}).
 
 \begin{table}[htbp]
 \centering
 \small
 \caption{Verifier issue taxonomy codes and corresponding reflection prompt actions.}
-\label{tab:s1-issue-taxonomy}
+\label{tab:issue-taxonomy}
 \begin{tabular}{lll}
 \toprule
 Issue Code & Failure Description & Reflection Prompt Action \\
@@ -176,9 +176,9 @@ Issue Code & Failure Description & Reflection Prompt Action \\
 \end{table}
 
 % -------------------------------------------------------------------------
-% SECTION S1.6: POST-HOC ANSWER-AUDIT IMPLEMENTATION
+% SECTION 6: POST-HOC ANSWER-AUDIT IMPLEMENTATION
 % -------------------------------------------------------------------------
-\section{S1.6 Post-Hoc Answer-Audit Implementation}\label{sec:s16-answer-audit}
+\section{Post-Hoc Answer-Audit Implementation}\label{sec:answer-audit}
 
 To evaluate the mathematical consistency between the natural-language text generated by LLMs and the SymPy-verified solution, a post-hoc audit was implemented (\texttt{scripts/audit\_paper\_results.py}).
 
@@ -198,16 +198,16 @@ Proportions for contradiction rates and match rates are reported with \textbf{Wi
 where $z = 1.96$, $\hat{p}$ is the sample proportion, and $n$ is the total delivered item count.
 
 % -------------------------------------------------------------------------
-% SECTION S1.7: ARTIFACT DIRECTORY MAP AND REGENERATION COMMANDS
+% SECTION 7: ARTIFACT DIRECTORY MAP AND REGENERATION COMMANDS
 % -------------------------------------------------------------------------
-\section{S1.7 Artifact Directory Map and Regeneration Commands}\label{sec:s17-artifact-map}
+\section{Artifact Directory Map and Regeneration Commands}\label{sec:artifact-map}
 
 \subsection{Artifact Directory Structure}
 \begin{table}[htbp]
 \centering
 \small
 \caption{Artifact directory map for experimental outputs.}
-\label{tab:s1-artifact-directory-map}
+\label{tab:artifact-directory-map}
 \begin{tabular}{ll}
 \toprule
 Relative Location & Description of Retained Contents \\
