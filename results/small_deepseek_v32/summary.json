@@ -1,0 +1,76 @@
+{
+  "overall": {
+    "trials": 6,
+    "delivered": 4,
+    "coverage": 0.6666666666666666,
+    "accepted_output_validity": 1.0,
+    "abstention_rate": 0.33333333333333337,
+    "mean_attempts": 1.0,
+    "mean_cvi": 0.89375,
+    "mean_isomorphism_score": 1.0
+  },
+  "by_dataset": {
+    "gsm8k": {
+      "trials": 2,
+      "delivered": 2,
+      "coverage": 1.0,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.0,
+      "mean_attempts": 1.0,
+      "mean_cvi": 0.9125,
+      "mean_isomorphism_score": 1.0
+    },
+    "math": {
+      "trials": 2,
+      "delivered": 1,
+      "coverage": 0.5,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.5,
+      "mean_attempts": 1.0,
+      "mean_cvi": 0.75,
+      "mean_isomorphism_score": 1.0
+    },
+    "prm800k": {
+      "trials": 2,
+      "delivered": 1,
+      "coverage": 0.5,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.5,
+      "mean_attempts": 1.0,
+      "mean_cvi": 1.0,
+      "mean_isomorphism_score": 1.0
+    }
+  },
+  "by_mode": {
+    "isomorphic": {
+      "trials": 3,
+      "delivered": 1,
+      "coverage": 0.3333333333333333,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.6666666666666667,
+      "mean_attempts": 1.0,
+      "mean_cvi": 0.875,
+      "mean_isomorphism_score": 1.0
+    },
+    "scaffold": {
+      "trials": 3,
+      "delivered": 3,
+      "coverage": 1.0,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.0,
+      "mean_attempts": 1.0,
+      "mean_cvi": 0.9,
+      "mean_isomorphism_score": 1.0
+    }
+  },
+  "methodology": {
+    "type": "three_item_generation_only_api_smoke",
+    "provider": "siliconflow",
+    "model": "deepseek-ai/DeepSeek-V3.2",
+    "formalized_cases": 3,
+    "modes_per_case": 2,
+    "max_attempts": 1,
+    "elapsed_seconds": 85.38655709999148,
+    "note": "Uses cached formalization to skip the slow decomposition API stage."
+  }
+}

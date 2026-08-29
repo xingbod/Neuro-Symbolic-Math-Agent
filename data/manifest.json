@@ -1,0 +1,39 @@
+{
+  "seed": 20260803,
+  "sample_size_per_dataset": 50,
+  "sources": {
+    "gsm8k": {
+      "dataset": "openai/gsm8k",
+      "config": "main",
+      "split": "test"
+    },
+    "math": {
+      "dataset": "EleutherAI/hendrycks_math",
+      "config": "algebra",
+      "split": "test"
+    },
+    "prm800k": {
+      "url": "https://media.githubusercontent.com/media/openai/prm800k/main/prm800k/data/phase2_test.jsonl",
+      "path": "data\\raw\\prm800k_phase2_test.jsonl",
+      "bytes": 12240719,
+      "sha256": "6b172efa884ac8341a946dd82e06947c135b7254109fb3f7aa907c715d98aaad"
+    }
+  },
+  "datasets": {
+    "gsm8k": {
+      "downloaded_records": 1319,
+      "numeric_answer_records": 1319,
+      "selected_records": 50
+    },
+    "math": {
+      "downloaded_records": 1187,
+      "numeric_answer_records": 974,
+      "selected_records": 50
+    },
+    "prm800k": {
+      "downloaded_records": 2762,
+      "numeric_answer_records": 2082,
+      "selected_records": 50
+    }
+  }
+}

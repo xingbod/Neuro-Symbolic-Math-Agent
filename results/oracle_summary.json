@@ -1,0 +1,71 @@
+{
+  "overall": {
+    "trials": 300,
+    "delivered": 268,
+    "coverage": 0.8933333333333333,
+    "accepted_output_validity": 1.0,
+    "abstention_rate": 0.10666666666666669,
+    "mean_attempts": 2.0,
+    "mean_cvi": 0.9836487206823027,
+    "mean_isomorphism_score": 0.9490049751243781
+  },
+  "by_dataset": {
+    "gsm8k": {
+      "trials": 100,
+      "delivered": 88,
+      "coverage": 0.88,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.12,
+      "mean_attempts": 2.0,
+      "mean_cvi": 0.9818181818181819,
+      "mean_isomorphism_score": 0.95
+    },
+    "math": {
+      "trials": 100,
+      "delivered": 96,
+      "coverage": 0.96,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.040000000000000036,
+      "mean_attempts": 2.0,
+      "mean_cvi": 0.9864583333333333,
+      "mean_isomorphism_score": 0.9472222222222223
+    },
+    "prm800k": {
+      "trials": 100,
+      "delivered": 84,
+      "coverage": 0.84,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.16000000000000003,
+      "mean_attempts": 2.0,
+      "mean_cvi": 0.9823554421768707,
+      "mean_isomorphism_score": 0.95
+    }
+  },
+  "by_mode": {
+    "isomorphic": {
+      "trials": 150,
+      "delivered": 134,
+      "coverage": 0.8933333333333333,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.10666666666666669,
+      "mean_attempts": 2.0,
+      "mean_cvi": 0.9836487206823027,
+      "mean_isomorphism_score": 0.8980099502487563
+    },
+    "scaffold": {
+      "trials": 150,
+      "delivered": 134,
+      "coverage": 0.8933333333333333,
+      "accepted_output_validity": 1.0,
+      "abstention_rate": 0.10666666666666669,
+      "mean_attempts": 2.0,
+      "mean_cvi": 0.9836487206823027,
+      "mean_isomorphism_score": 1.0
+    }
+  },
+  "methodology": {
+    "type": "offline_oracle_verifier_smoke_benchmark",
+    "warning": "This validates dataset adapters, verifier gates, reflection recovery, and aggregation; it does not measure LLM generation quality.",
+    "inject_first_failure": true
+  }
+}

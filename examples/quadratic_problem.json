@@ -1,0 +1,28 @@
+﻿{
+  "problem_id": "quadratic-01",
+  "text": "Solve x² - 5x + 6 = 0.",
+  "variables": ["x"],
+  "equations": ["x**2 - 5*x + 6 = 0"],
+  "steps": [
+    {
+      "step_id": "s1",
+      "name": "factor",
+      "description": "Factor the quadratic",
+      "equations": ["(x-2)*(x-3)=0"],
+      "dependencies": [],
+      "concepts": ["factoring"]
+    },
+    {
+      "step_id": "s2",
+      "name": "zero product",
+      "description": "Apply the zero-product property",
+      "equations": ["x=2", "x=3"],
+      "dependencies": ["s1"],
+      "concepts": ["quadratics"]
+    }
+  ],
+  "concepts": ["quadratics", "factoring"],
+  "domain_constraints": [
+    {"variable": "x", "expression": "x > 0", "require_all_solutions": true}
+  ]
+}

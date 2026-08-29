@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Symbolic Math Agent 流程可视化与交互平台</title>
+    <link rel="stylesheet" href="/static/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 顶部导航与 API 设置栏 -->
+    <header class="app-header">
+        <div class="brand">
+            <i class="fa-solid fa-brain-circuit icon-logo"></i>
+            <div>
+                <h1>Neuro-Symbolic Math Agent</h1>
+                <p class="subtitle">面向数学教育的神经符号生成、SymPy 门控验证与反思闭环平台</p>
+            </div>
+        </div>
+        <div class="config-bar">
+            <div class="config-item">
+                <label><i class="fa-solid fa-server"></i> 服务商</label>
+                <select id="config-provider" onchange="onProviderChange()">
+                    <option value="openai">OpenAI 兼容接口</option>
+                    <option value="siliconflow">SiliconFlow (硅基流动)</option>
+                </select>
+            </div>
+            <div class="config-item">
+                <label><i class="fa-solid fa-link"></i> API Base URL</label>
+                <input type="text" id="config-base-url" placeholder="https://api.openai.com/v1">
+            </div>
+            <div class="config-item">
+                <label><i class="fa-solid fa-key"></i> API Key</label>
+                <input type="password" id="config-api-key" placeholder="填入 API 密钥">
+            </div>
+            <div class="config-item">
+                <label><i class="fa-solid fa-cube"></i> 模型名称</label>
+                <input type="text" id="config-model" placeholder="gpt-4o-mini">
+            </div>
+            <div class="config-item toggle-item">
+                <label><i class="fa-solid fa-plug-circle-xmark"></i> 离线模拟模式</label>
+                <label class="switch">
+                    <input type="checkbox" id="config-offline" onchange="toggleOfflineMode()">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主界面双栏布局 -->
+    <main class="app-container">
+        <!-- 左侧：200 题基准试题浏览器 -->
+        <aside class="sidebar-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-book-bookmark"></i> 200 题基准试题库</h2>
+                <span class="badge-count" id="dataset-count-badge">0 题</span>
+            </div>
+
+            <!-- 数据集选择与搜索 -->
+            <div class="dataset-selector">
+                <div class="btn-group-dataset">
+                    <button class="btn-dataset active" data-ds="gsm8k" onclick="switchDataset('gsm8k')">
+                        <i class="fa-solid fa-calculator"></i> GSM8K (200题)
+                    </button>
+                    <button class="btn-dataset" data-ds="math" onclick="switchDataset('math')">
+                        <i class="fa-solid fa-square-root-variable"></i> MATH (200题)
+                    </button>
+                    <button class="btn-dataset" data-ds="prm800k" onclick="switchDataset('prm800k')">
+                        <i class="fa-solid fa-diagram-project"></i> PRM800K (200题)
+                    </button>
+                </div>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" placeholder="搜索题目关键词或 ID..." oninput="filterProblemList()">
+                </div>
+            </div>
+
+            <!-- 试题列表 -->
+            <div class="problem-list" id="problem-list">
+                <div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> 正在加载 200 题数据集...</div>
+            </div>
+
+            <!-- 选中的试题详情预览 -->
+            <div class="problem-detail-card" id="problem-detail-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-file-lines"></i> 当前选中题目预览
+                    <span class="record-id-tag" id="selected-id-tag">尚未选择</span>
+                </div>
+                <div class="problem-text-box" id="selected-problem-text">请在上方列表中选择一道题目...</div>
+                <div class="solution-text-box" id="selected-solution-text"></div>
+            </div>
+        </aside>
+
+        <!-- 右侧：可视化流程与推演工作区 -->
+        <section class="main-workspace">
+            <!-- 运行控制栏 -->
+            <div class="control-panel">
+                <div class="mode-selection">
+                    <label class="section-label"><i class="fa-solid fa-sliders"></i> 生成模式与设置</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="gen-mode" value="isomorphic" checked onchange="toggleModeOptions()">
+                            <span><i class="fa-solid fa-copy"></i> Isomorphic (同构变式)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gen-mode" value="scaffold" onchange="toggleModeOptions()">
+                            <span><i class="fa-solid fa-stairs"></i> Scaffold (步骤支架)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="target-step-select" id="scaffold-options" style="display: none;">
+                    <label class="section-label"><i class="fa-solid fa-bullseye"></i> 目标卡点步骤 (Target Step)</label>
+                    <select id="target-step-id">
+                        <option value="s1">Step 1 (s1)</option>
+                    </select>
+                </div>
+
+                <button class="btn-run-agent" id="btn-run" onclick="runAgentPipeline()">
+                    <i class="fa-solid fa-bolt"></i> 运行 Neuro-Symbolic Agent 流程
+                </button>
+            </div>
+
+            <!-- 流程可视化工作区 -->
+            <div class="visualization-flow" id="visualization-flow">
+                <!-- 欢迎引导占位 -->
+                <div class="empty-state" id="empty-state">
+                    <i class="fa-solid fa-diagram-next empty-icon"></i>
+                    <h3>准备就绪</h3>
+                    <p>在左侧选择一道 200 题基准试题，点击上方 **“运行 Neuro-Symbolic Agent 流程”** 按钮即可开启实时可视化推演。</p>
+                </div>
+
+                <!-- 动态推演卡片区域 -->
+                <div id="execution-trace-container" style="display: none;">
+                    <!-- 阶段 1: 题目解析与 DAG 结构 -->
+                    <div class="trace-step-card card-decomp">
+                        <div class="step-badge step-1">阶段 1</div>
+                        <div class="step-content">
+                            <h4><i class="fa-solid fa-sitemap"></i> Decomposer 结构化表达与步骤 DAG</h4>
+                            <div class="decomp-details">
+                                <div class="meta-tag"><i class="fa-solid fa-code"></i> 声明变量: <span id="decomp-vars">x</span></div>
+                                <div class="meta-tag"><i class="fa-solid fa-equals"></i> 约束方程: <span id="decomp-eqs">x**2 - 5*x + 6 = 0</span></div>
+                            </div>
+                            <div class="dag-tree" id="decomp-dag-tree"></div>
+                        </div>
+                    </div>
+
+                    <!-- 阶段 2: 尝试与反思重试闭环轨迹 -->
+                    <div class="trace-step-card card-attempts">
+                        <div class="step-badge step-2">阶段 2</div>
+                        <div class="step-content">
+                            <h4><i class="fa-solid fa-arrows-rotate"></i> 生成尝试与 SymPy 门控检验轨迹 (Attempts Trace)</h4>
+                            <div id="attempts-list-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- 阶段 3: 最终判定与数值评价仪表盘 -->
+                    <div class="trace-step-card card-result" id="final-result-card">
+                        <div class="step-badge step-3">阶段 3</div>
+                        <div class="step-content">
+                            <h4><i class="fa-solid fa-award"></i> 最终交付判定与符号数值评价</h4>
+                            
+                            <div class="result-status-banner" id="result-status-banner">
+                                <div class="status-title" id="status-title">DELIVERED: TRUE</div>
+                                <div class="status-sub" id="status-sub">通过所有 SymPy 符号门控检验，交付安全候选题目</div>
+                            </div>
+
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-label">Clean-Value Index (CVI)</div>
+                                    <div class="metric-value" id="metric-cvi">1.0000</div>
+                                    <div class="metric-desc">解集数值适宜度（偏好简单整数/有理分数）</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">Symbolic Feature-Similarity (SFS)</div>
+                                    <div class="metric-value" id="metric-sfs">0.9500</div>
+                                    <div class="metric-desc">题目结构同构度（变量数/方程数/次数匹配）</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-label">SymPy 实数求解结果</div>
+                                    <div class="metric-value solutions-text" id="metric-solutions">[x = 3, 4]</div>
+                                    <div class="metric-desc">经过 SymPy 解析算出的精确解集</div>
+                                </div>
+                            </div>
+
+                            <div class="final-question-box" id="final-question-box">
+                                <div class="final-q-title"><i class="fa-solid fa-paper-plane"></i> 最终交付给学生的生成题目：</div>
+                                <div class="final-q-text" id="final-question-text"></div>
+                                <div class="final-q-eqs" id="final-question-eqs"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
