@@ -1,0 +1,247 @@
+% =========================================================================
+% SUPPLEMENTARY MATERIAL S1: Reproducibility Manifest, Artifact Map,
+% Data Model Specifications, and Verifier Issue Taxonomy
+%
+% Accompanies: "A Verifier-Gated Neuro-Symbolic Agent Creates Isomorphic Math
+%               Variants and Step Scaffolds"
+% Target Journal: PeerJ Computer Science
+% =========================================================================
+
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+    pdftitle={Supplementary Material S1: Reproducibility Manifest and Artifact Map}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+\title{\textbf{Supplementary Material S1: Reproducibility Manifest, Data Models, and Verifier Issue Taxonomy}}
+\author{\textbf{Antigravity Research Team}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+This supplementary document accompanies the manuscript \textbf{``A Verifier-Gated Neuro-Symbolic Agent Creates Isomorphic Math Variants and Step Scaffolds''}. It provides full technical specifications, dataset provenance, random seeds, serialized data schemas, LLM execution configurations, verifier issue taxonomy, and post-hoc answer-audit protocols referenced in the main text.
+
+\tableofcontents
+\newpage
+
+% -------------------------------------------------------------------------
+% SECTION S1.1: EXPERIMENT IDENTIFIERS AND SAMPLING SEEDS
+% -------------------------------------------------------------------------
+\section{S1.1 Experiment Identifiers and Sampling Seeds}\label{sec:s11-experiment-identifiers}
+
+To ensure complete reproducibility of the empirical evaluation reported in Section 4, all experimental trials were executed against a fixed sample derived from deterministic pseudo-random shuffling.
+
+\begin{itemize}
+    \item \textbf{Experiment Identifier:} \texttt{tri\_dataset\_200\_seed\_20260803}
+    \item \textbf{Experiment Directory:} \texttt{experiments/tri\_dataset\_200\_seed\_20260803/}
+    \item \textbf{Primary Sampling Seed:} \texttt{20260803}
+    \item \textbf{Dataset-Specific Shuffling Seeds:}
+    \begin{itemize}
+        \item \textbf{GSM8K:} \texttt{20260803}
+        \item \textbf{MATH Algebra:} \texttt{20260804}
+        \item \textbf{PRM800K:} \texttt{20260805}
+    \end{itemize}
+    \item \textbf{Experimental Design:} 600 source items (200 items/dataset $\times$ 3 datasets) $\times$ 2 generation modes (\texttt{isomorphic}, \texttt{scaffold}) $\times$ 2 LLM models (\texttt{gpt-4o-mini}, \texttt{deepseek-v3}) = 2,400 total experimental trials.
+\end{itemize}
+
+% -------------------------------------------------------------------------
+% SECTION S1.2: DATASET PROVENANCE AND SHA-256 MANIFEST
+% -------------------------------------------------------------------------
+\section{S1.2 Dataset Provenance and SHA-256 Manifest}\label{sec:s12-dataset-provenance}
+
+Table~\ref{tab:s1-dataset-provenance} details the upstream source endpoints, local file paths, and cryptographic SHA-256 hashes for all evaluation datasets.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Dataset provenance, local storage paths, and cryptographic SHA-256 manifests.}
+\label{tab:s1-dataset-provenance}
+\begin{tabular}{lllll}
+\toprule
+Dataset & Upstream Source & Split / Config & Local Path & SHA-256 Checksum \\
+\midrule
+GSM8K & Hugging Face \texttt{openai/gsm8k} & \texttt{main}, test split & \texttt{data/raw/gsm8k\_test.jsonl} & \texttt{752adc99f...abafbac} \\
+MATH & Hugging Face \texttt{EleutherAI/hendrycks\_math} & \texttt{algebra}, test split & \texttt{data/raw/math\_algebra\_test.jsonl} & \texttt{81a4218fc...89fcc03} \\
+PRM800K & OpenAI \texttt{openai/prm800k} & \texttt{phase2\_test} & \texttt{data/raw/prm800k\_phase2\_test.jsonl} & \texttt{6b172efa8...d98aaad} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Direct Download Endpoints:}
+\begin{itemize}
+    \item \textbf{GSM8K:} \url{https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl}
+    \item \textbf{MATH Algebra:} \url{https://people.eecs.berkeley.edu/~hendrycks/MATH.tar.gz}
+    \item \textbf{PRM800K:} \url{https://media.githubusercontent.com/media/openai/prm800k/main/prm800k/data/phase2_test.jsonl}
+\end{itemize}
+
+% -------------------------------------------------------------------------
+% SECTION S1.3: LLM PROVIDER AND RUNTIME SERVICE CONFIGURATION
+% -------------------------------------------------------------------------
+\section{S1.3 LLM Provider and Service Configurations}\label{sec:s13-service-configuration}
+
+Table~\ref{tab:s1-model-service-configuration} summarizes the LLM service endpoints, sampling parameters, and context limits used during formalization and candidate generation.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{LLM service endpoints and hyperparameter configurations.}
+\label{tab:s1-model-service-configuration}
+\begin{tabular}{lllrr}
+\toprule
+Pipeline Stage & Reported Model Identifier & Default Base URL & Temp. & Max Tokens \\
+\midrule
+Formalization (Decomposer) & \texttt{gpt-4o-mini} & \url{https://api.openai.com/v1} & 0.2 & 2,500 \\
+GPT Candidate Generation & \texttt{gpt-4o-mini} & \url{https://api.openai.com/v1} & 0.2 & 1,800 \\
+DeepSeek Candidate Gen. & \texttt{deepseek-ai/DeepSeek-V3} & \url{https://api.siliconflow.cn/v1} & 0.2 & 1,800 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Additional Runtime Execution Parameters:}
+\begin{itemize}
+    \item \textbf{Concurrency Limit:} 4 parallel worker threads.
+    \item \textbf{Maximum Agent Retries ($k$):} 2 retry attempts per trial (up to 3 total attempts including initial generation).
+    \item \textbf{JSON Schema Repair Allowance:} Up to 2 automatic repair requests per API call if JSON parsing fails.
+    \item \textbf{API Timeout:} 60 seconds per HTTP request.
+    \item \textbf{Credential Isolation:} API keys are retrieved from environment variables (\texttt{OPENAI\_API\_KEY}, \texttt{SILICONFLOW\_API\_KEY}) or git-ignored \texttt{config.json} files, and are scrubbed from log files and public artifacts.
+\end{itemize}
+
+% -------------------------------------------------------------------------
+% SECTION S1.4: SERIALIZED DATA MODELS AND CONTROLLER STATES
+% -------------------------------------------------------------------------
+\section{S1.4 Serialized Data Models and Controller States}\label{sec:s14-data-models}
+
+The controller architecture formalizes problem items, steps, candidate responses, and verifier outputs using immutable data structures.
+
+\subsection{Controller Terminal States}
+The \texttt{MathAgent} controller outputs one of two terminal states:
+\begin{enumerate}
+    \item \textbf{\texttt{DELIVERED(candidate, verification\_result, attempt\_history)}}: Emitted when a generated candidate passes all SymPy verifier checks ($CVI \ge 0.60$, $SFS \ge 0.60$, real solvable roots, satisfied domain constraints).
+    \item \textbf{\texttt{ABSTAINED(attempt\_history, failure\_reasons)}}: Emitted when all $k$ attempts fail verification, triggering fail-safe abstention to prevent invalid items from reaching students.
+\end{enumerate}
+
+\subsection{Serialized Data Schema}
+\begin{itemize}
+    \item \textbf{\texttt{Problem}}: \texttt{\{problem\_id, text, variables, equations, steps, domain\_constraints\}}
+    \item \textbf{\texttt{Step}}: \texttt{\{step\_id, name, description, equations, dependencies, concepts\}}
+    \item \textbf{\texttt{Candidate}}: \texttt{\{question, variables, equations, answer, reasoning\}}
+    \item \textbf{\texttt{VerificationResult}}: \texttt{\{accepted, solutions, cvi, isomorphism\_score, issues\}}
+    \item \textbf{\texttt{Attempt}}: \texttt{\{number, candidate, verification, reflection, error\}}
+\end{itemize}
+
+% -------------------------------------------------------------------------
+% SECTION S1.5: VERIFIER FAILURE ISSUE TAXONOMY AND REFLECTION PROMPTS
+% -------------------------------------------------------------------------
+\section{S1.5 Verifier Failure Issue Taxonomy and Reflection Mappings}\label{sec:s15-issue-taxonomy}
+
+When candidate verification fails, the \texttt{SymbolicVerifier} categorizes the failure into an issue taxonomy code. The \texttt{ReflectionEngine} maps these codes into prompt constraints for the next attempt (Table~\ref{tab:s1-issue-taxonomy}).
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Verifier issue taxonomy codes and corresponding reflection prompt actions.}
+\label{tab:s1-issue-taxonomy}
+\begin{tabular}{lll}
+\toprule
+Issue Code & Failure Description & Reflection Prompt Action \\
+\midrule
+\texttt{PARSE\_ERROR} & Equation or JSON schema cannot be parsed & Enforce strict SymPy syntax and declared variables. \\
+\texttt{NO\_SOLUTION\_ERROR} & Equation system has no finite solution & Add numerical givens to uniquely determine variables. \\
+\texttt{SOLVER\_ERROR} & SymPy internal solver exception or timeout & Simplify algebraic structure and eliminate circularity. \\
+\texttt{NON\_REAL\_SOLUTION\_ERROR} & Solutions contain complex imaginary parts & Ensure discriminant $\Delta \ge 0$ for real-valued roots. \\
+\texttt{DOMAIN\_VIOLATION\_ERROR} & Solutions violate active constraints ($x \le 0$) & Regenerate coefficients so roots satisfy predicates. \\
+\texttt{UGLY\_SOLUTIONS\_ERROR} & Clean-Value Index ($CVI < 0.60$) is low & Restructure coefficients for small integers/fractions. \\
+\texttt{NON\_ISOMORPHIC\_ERROR} & Structural similarity ($SFS < 0.60$) is low & Preserve variable count, degree, and operation profile. \\
+\texttt{TARGET\_STEP\_MISMATCH} & Scaffold targets wrong step ID & Align step equations strictly with \texttt{target\_step\_id}. \\
+\texttt{GENERATION\_ERROR} & API network error or JSON failure & Re-prompt LLM with strict JSON schema instructions. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% -------------------------------------------------------------------------
+% SECTION S1.6: POST-HOC ANSWER-AUDIT IMPLEMENTATION
+% -------------------------------------------------------------------------
+\section{S1.6 Post-Hoc Answer-Audit Implementation}\label{sec:s16-answer-audit}
+
+To evaluate the mathematical consistency between the natural-language text generated by LLMs and the SymPy-verified solution, a post-hoc audit was implemented (\texttt{scripts/audit\_paper\_results.py}).
+
+\subsection{Audit Classification Categories}
+Each delivered candidate item was audited and assigned to one of three categories:
+\begin{enumerate}
+    \item \textbf{Matched (Answer Agreement):} The candidate's natural-language answer text (e.g., ``$x = 18$'') mechanically parses into a numeric value or tuple that matches the SymPy solver's exact solution set.
+    \item \textbf{Confirmed Contradiction:} The parsed natural-language answer text explicitly contradicts every solution computed by SymPy (e.g., text states ``$x = 25$'' but SymPy solver computed ``$x = 18$'').
+    \item \textbf{Mechanically Unverified:} The candidate's text contains prose, complex units, or non-standard formatting that cannot be unambiguously parsed by regular expressions, retained in the denominator for conservative accuracy bounds.
+\end{enumerate}
+
+\subsection{Statistical Confidence Intervals}
+Proportions for contradiction rates and match rates are reported with \textbf{Wilson score 95\% confidence intervals}:
+\begin{equation}
+    CI_{95\%} = \frac{\hat{p} + \frac{z^2}{2n} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{z^2}{4n^2}}}{1 + \frac{z^2}{n}}
+\end{equation}
+where $z = 1.96$, $\hat{p}$ is the sample proportion, and $n$ is the total delivered item count.
+
+% -------------------------------------------------------------------------
+% SECTION S1.7: ARTIFACT DIRECTORY MAP AND REGENERATION COMMANDS
+% -------------------------------------------------------------------------
+\section{S1.7 Artifact Directory Map and Regeneration Commands}\label{sec:s17-artifact-map}
+
+\subsection{Artifact Directory Structure}
+\begin{table}[htbp]
+\centering
+\small
+\caption{Artifact directory map for experimental outputs.}
+\label{tab:s1-artifact-directory-map}
+\begin{tabular}{ll}
+\toprule
+Relative Location & Description of Retained Contents \\
+\midrule
+\texttt{data/benchmark/} & Fixed 200-item paper benchmark JSONL files (\texttt{gsm8k\_200.jsonl}, etc.) \\
+\texttt{data/normalized/} & Full normalized test splits for GSM8K, MATH Algebra, and PRM800K \\
+\texttt{web/} & Standalone FastAPI server, HTML template, CSS styling, and JS visual renderer \\
+\texttt{examples/demo\_run.py} & Dual-mode (Offline + Online API) Python demonstration script \\
+\texttt{tests/} & Automated unit test suite (\texttt{test\_agent.py}, \texttt{test\_datasets.py}) \\
+\texttt{scripts/run\_large\_experiment.py} & Benchmark execution pipeline for 2,400 experimental trials \\
+\texttt{scripts/analyze\_experiment\_for\_paper.py} & Statistical analysis, McNemar tests, CVI/SFS distribution tables \\
+\texttt{scripts/audit\_paper\_results.py} & Post-hoc answer-consistency and evidence-chain audit script \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Commands for Full Experiment Regeneration}
+To execute the full verification and analysis pipeline from a fresh installation:
+
+\begin{verbatim}
+# 1. Install package in editable mode
+pip install -e .
+
+# 2. Run unit test suite
+python -m unittest discover -s tests -v
+
+# 3. Run interactive Web UI server
+python -m uvicorn web.server:app --host 0.0.0.0 --port 8000
+
+# 4. Run statistical analysis and paper table generation
+python scripts/analyze_experiment_for_paper.py
+
+# 5. Run post-hoc answer consistency audit
+python scripts/audit_paper_results.py
+\end{verbatim}
+
+\end{document}
