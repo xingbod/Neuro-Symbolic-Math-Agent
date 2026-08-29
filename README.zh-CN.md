@@ -28,6 +28,27 @@
 
 每条数据记录均包含 `dataset`、`record_id`、`problem` 题面文本、参考解答 `solution`、标准答案 `answer`、推导步骤 `steps` 与领域元数据 `metadata`。
 
+### 第三方数据集原始来源与下载地址 (Third-Party Data Provenance)
+
+为符合学术期刊（如 PeerJ）的数据透明度规范，本研究所调用的第三方开源数据集原始来源与官方下载地址如下：
+
+1. **GSM8K (OpenAI 小学数学应用题集)**：
+   - **提供方 / 数据库**：OpenAI 官方 GitHub 仓库 & Hugging Face Datasets
+   - **官方仓库地址**：[https://github.com/openai/grade-school-math](https://github.com/openai/grade-school-math)
+   - **原始数据直链下载**：[https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl](https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl)
+   - **Hugging Face API 入口**：[https://datasets-server.huggingface.co/rows?dataset=openai/gsm8k&config=main&split=test](https://datasets-server.huggingface.co/rows?dataset=openai/gsm8k&config=main&split=test)
+
+2. **MATH Dataset (Hendrycks 高中代数题集)**：
+   - **提供方 / 数据库**：UC Berkeley / EleutherAI Hugging Face Hub
+   - **官方仓库地址**：[https://github.com/hendrycks/math](https://github.com/hendrycks/math)
+   - **原始压缩包直链下载**：[https://people.eecs.berkeley.edu/~hendrycks/MATH.tar.gz](https://people.eecs.berkeley.edu/~hendrycks/MATH.tar.gz)
+   - **Hugging Face API 入口**：[https://datasets-server.huggingface.co/rows?dataset=EleutherAI/hendrycks_math&config=algebra&split=test](https://datasets-server.huggingface.co/rows?dataset=EleutherAI/hendrycks_math&config=algebra&split=test)
+
+3. **PRM800K (OpenAI 过程监督测试集 Phase 2)**：
+   - **提供方 / 数据库**：OpenAI 官方 GitHub 仓库
+   - **官方仓库地址**：[https://github.com/openai/prm800k](https://github.com/openai/prm800k)
+   - **原始数据直链下载**：[https://media.githubusercontent.com/media/openai/prm800k/main/prm800k/data/phase2_test.jsonl](https://media.githubusercontent.com/media/openai/prm800k/main/prm800k/data/phase2_test.jsonl)
+
 ---
 
 ## 3. 代码结构说明 (Code Information)

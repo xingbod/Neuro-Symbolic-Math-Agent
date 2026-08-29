@@ -28,6 +28,27 @@ The repository includes structured datasets for evaluating math item generation 
 
 Each record includes `dataset`, `record_id`, `problem` text, reference `solution`, ground-truth `answer`, process `steps`, and domain `metadata`.
 
+### Third-Party Data Provenance & Accession URLs
+
+In compliance with journal data availability standards (e.g., PeerJ), the third-party datasets used in this analysis were obtained from the following official repositories and database endpoints:
+
+1. **GSM8K (Grade School Math 8K)**:
+   - **Provider / Database**: OpenAI GitHub Repository & Hugging Face Datasets
+   - **Repository URL**: [https://github.com/openai/grade-school-math](https://github.com/openai/grade-school-math)
+   - **Direct Raw Download URL**: [https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl](https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/test.jsonl)
+   - **Hugging Face Endpoint**: [https://datasets-server.huggingface.co/rows?dataset=openai/gsm8k&config=main&split=test](https://datasets-server.huggingface.co/rows?dataset=openai/gsm8k&config=main&split=test)
+
+2. **MATH Dataset (Algebra Split)**:
+   - **Provider / Database**: UC Berkeley / EleutherAI Hugging Face Hub
+   - **Repository URL**: [https://github.com/hendrycks/math](https://github.com/hendrycks/math)
+   - **Direct Raw Archive URL**: [https://people.eecs.berkeley.edu/~hendrycks/MATH.tar.gz](https://people.eecs.berkeley.edu/~hendrycks/MATH.tar.gz)
+   - **Hugging Face Endpoint**: [https://datasets-server.huggingface.co/rows?dataset=EleutherAI/hendrycks_math&config=algebra&split=test](https://datasets-server.huggingface.co/rows?dataset=EleutherAI/hendrycks_math&config=algebra&split=test)
+
+3. **PRM800K (Phase-2 Test Split)**:
+   - **Provider / Database**: OpenAI GitHub Repository
+   - **Repository URL**: [https://github.com/openai/prm800k](https://github.com/openai/prm800k)
+   - **Direct Raw Download URL**: [https://media.githubusercontent.com/media/openai/prm800k/main/prm800k/data/phase2_test.jsonl](https://media.githubusercontent.com/media/openai/prm800k/main/prm800k/data/phase2_test.jsonl)
+
 ---
 
 ## Code Information
